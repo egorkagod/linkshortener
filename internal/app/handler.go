@@ -20,7 +20,7 @@ func generateID(length int) string {
 }
 
 func LinkHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
+	if r.URL.Path == "/" && r.Method == http.MethodPost {
 		bodyBytes, err := io.ReadAll(r.Body)
 		if err != nil {
 			http.Error(w, "Ошибка чтения тела запроса", http.StatusBadRequest)
@@ -31,7 +31,7 @@ func LinkHandler(w http.ResponseWriter, r *http.Request) {
 		ID = generateID(10)
 		urls[ID] = bodyText
 		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte("https://localhost" + "/" + ID))
+		w.Write([]byte("http://localhost:8080" + "/" + ID))
 	} else if r.Method == http.MethodGet {
 		ID = r.URL.Path[1:]
 		value, exist := urls[ID]
@@ -41,6 +41,6 @@ func LinkHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Неккоректный запрос", http.StatusBadRequest)
 		}
 	} else {
-		http.Error(w, "Данный метож не поддерживается", http.StatusMethodNotAllowed)
+		http.Error(w, "Неккоректный запрос", http.StatusBadRequest)
 	}
 }
