@@ -4,9 +4,9 @@ import (
 	"net/http"
 )
 
-const SERVER_URL = "localhost:8080"
+const ServerURL = "localhost:8080"
 
 func main() {
 	InitMux()
-	http.ListenAndServe(SERVER_URL, Mux)
+	http.ListenAndServe(ServerURL, Mux)
 }
